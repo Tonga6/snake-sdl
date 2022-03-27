@@ -1,7 +1,4 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Project1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  SnakePiece.cpp
-D:\GameDev\snake-sdl\snake\Project1\GameObject.h(13,12): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\GameDev\snake-sdl\snake\Project1\GameObject.h(14,12): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\GameDev\snake-sdl\snake\Project1\SnakePiece.cpp(16,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\GameDev\snake-sdl\snake\Project1\SnakePiece.cpp(17,17): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Game.cpp
+D:\GameDev\snake-sdl\snake\Project1\GameObject.h(16,33): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
   Project1.vcxproj -> D:\GameDev\snake-sdl\snake\x64\Debug\Snake.exe
