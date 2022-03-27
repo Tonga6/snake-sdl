@@ -24,7 +24,7 @@ public:
 	void update();
 	void render();
 	void clean();
-
+	void newCycle();
 	bool checkRunning() { return isRunning; };
 
 	template <typename T>

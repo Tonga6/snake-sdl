@@ -6,6 +6,9 @@ struct Node {
 	SnakePiece* data;
 	Node* next;
 };
+struct LinkedList {
+	Node* head;
+};
 Game::Game() {
 
 }
@@ -13,8 +16,8 @@ Game::Game() {
 Game::~Game() {
 
 }
-Node* head;
-Node* tail;
+LinkedList* snake = new LinkedList;
+float targetTicks, waitedTicks;
 //set up SDL window and renderer
 void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 	int flags = 0;
@@ -42,24 +45,35 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 			n->data->SetPos((width / 2 + ((i + 1) * 32)),height/2);
 			n->next = temp;
 			if (i == startCount-1)
-				head = n;
+				snake->head = n;
 			else
 				temp = n;
 		}
-		
+		waitedTicks = SDL_GetTicks();
+		targetTicks = waitedTicks + 2000;//2 seconds
 	}
 };
 
+void Game::newCycle() {
+	Log("New Cycle");
+	targetTicks = SDL_GetTicks() + 2000;
+}
 void Game::handleEvents() {
 
 };
 
 void Game::update() {
+	if (waitedTicks > targetTicks) {
+		newCycle();
+	}
+	else {
+		waitedTicks = SDL_GetTicks();
+	}
 };
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	Node* loop = head;
+	Node* loop = snake->head;
 	while (loop != NULL) {
 		loop->data->Render();
 		loop = loop->next;
