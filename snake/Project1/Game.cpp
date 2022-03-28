@@ -56,7 +56,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 
 void Game::newCycle() {
 	Log("New Cycle");
-	targetTicks = SDL_GetTicks() + 2000;
+	Node* loop = snake->head;
+	while (loop != NULL) {
+		loop->data->MovePiece();
+		loop = loop->next;
+	}
+	targetTicks = SDL_GetTicks() + 1000;
 }
 void Game::handleEvents() {
 
