@@ -2,7 +2,6 @@
 #include "iostream"
 #include "SDL.h"
 #include "SDL_image.h"
-//#include "SnakePiece.h"
 struct Vec2 {
 	float x, y;
 	void Set(float newX, float newY) {
@@ -32,7 +31,10 @@ public:
 
 
 private:
+	const Uint8* key;
 	bool isRunning = false;
 	SDL_Window *window;
 	SDL_Renderer* renderer;
+	void UpdateDirections();
+	//void UpdateDirections(movementDir newDir);
 };

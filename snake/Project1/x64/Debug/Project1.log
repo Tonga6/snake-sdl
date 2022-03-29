@@ -1,6 +1,6 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Project1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Game.cpp
-D:\GameDev\snake-sdl\snake\Project1\Game.cpp(52,29): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
-D:\GameDev\snake-sdl\snake\Project1\Game.cpp(64,31): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
-D:\GameDev\snake-sdl\snake\Project1\Game.cpp(75,29): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+D:\GameDev\snake-sdl\snake\Project1\Game.cpp(74,29): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+D:\GameDev\snake-sdl\snake\Project1\Game.cpp(87,31): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
+D:\GameDev\snake-sdl\snake\Project1\Game.cpp(141,29): warning C4244: '=': conversion from 'Uint32' to 'float', possible loss of data
   Project1.vcxproj -> D:\GameDev\snake-sdl\snake\x64\Debug\Snake.exe

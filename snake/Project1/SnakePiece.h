@@ -4,7 +4,8 @@ enum movementDir {
 	UP,
 	DOWN,
 	LEFT,
-	RIGHT
+	RIGHT,
+	NONE
 };
 class SnakePiece : public GameObject {
 
@@ -16,6 +17,7 @@ public:
 	bool isIntersecting(SDL_Rect rect) { return SDL_HasIntersection(&GameObject::GetRect(), &rect); };
 
 	void SetDir(movementDir newDir) { dir = newDir; };
+	movementDir GetDir() { return dir; };
 
 	void MovePiece();
 private:

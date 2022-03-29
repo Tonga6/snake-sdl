@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 	//loop while game is running
 	while (game->checkRunning()) {
 		frameStart = SDL_GetTicks();
-		//game->handleEvents();
+		game->handleEvents();
 		game->update();
 		game->render();
 		frameTime = SDL_GetTicks() - frameStart;
