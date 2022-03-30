@@ -15,10 +15,10 @@ SnakePiece::SnakePiece(const char* texSheet, SDL_Renderer* ren) {
 void SnakePiece::MovePiece() {
 	switch (dir) {
 		case UP:
-			dstRect.y += 32;
+			dstRect.y -= 32;
 			break;
 		case DOWN:
-			dstRect.y -= 32;
+			dstRect.y += 32;
 			break;
 		case LEFT:
 			dstRect.x -= 32;

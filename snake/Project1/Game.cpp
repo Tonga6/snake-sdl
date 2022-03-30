@@ -2,23 +2,28 @@
 #include "TextureManager.h"
 #include "SnakePiece.h"
 
-template<class L>
 struct node {
-	L* data;
+	SnakePiece* data;
 	node* next;
+	node* prev;
 };
-template<class L>
 struct LinkedList {
-	node<L>* head;
-	node<L>* tail;
+	node* head;
+	node* tail;
 
-	void Add(node<L>* newNode) {
+	void Add(SnakePiece* data) {
+		node* newNode = new node;
+		newNode->data = data;
 		if (head == NULL) {
 			head = newNode;
 			tail = head;
+			head->next = NULL;
+			head->prev = NULL;
 		}
 		else {
 			tail->next = newNode;
+			newNode->prev = tail;
+			newNode->next = NULL;
 			tail = newNode;
 		}
 	}
@@ -31,9 +36,8 @@ Game::Game() {
 Game::~Game() {
 
 }
-LinkedList<SnakePiece>* snake = new LinkedList<SnakePiece>;
-LinkedList<SnakePiece>* dirQueue = new LinkedList<SnakePiece>;
-//LinkedList<LinkedList>* dirQueue = new LinkedList<LinkedList>;
+LinkedList* snake = new LinkedList;
+
 float targetTicks, waitedTicks;
 //set up SDL window and renderer
 void Game::init(const char* title, int xpos, int ypos, int width, int height) {
@@ -53,23 +57,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 		isRunning = true;
 
-		node<SnakePiece>* n;
-		node<SnakePiece>* temp = nullptr;
-		dirQueue->head = nullptr;
-		dirQueue->tail = dirQueue->head;
-
-		int startCount = 4;
+		snake->head = NULL;
+		snake->tail = NULL;
+		SnakePiece* s;
 		for (int i = 0; i < 4; i++) {
-			n = new node<SnakePiece>;
-			n->data = new SnakePiece("Assets/1x/block.png", renderer);
-			n->data->SetPos((width / 2 + ((i + 1) * 32)),height/2);
-			n->next = temp;
-			if (i == startCount-1)
-				snake->head = n;
-			if (i == 0)
-				snake->tail = n;
-			
-			temp = n;
+			s = new SnakePiece("Assets/1x/block.png", renderer);
+			s->SetPos((width / 2 + ((i + 1) * 32)), height / 2);
+			snake->Add(s);
 		}
 		waitedTicks = SDL_GetTicks();
 		targetTicks = waitedTicks + 2000;//2 seconds
@@ -78,21 +72,30 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 
 void Game::newCycle() {
 	Log("New Cycle");
-	node<SnakePiece>* loop = snake->head;
-	while (loop != NULL) {
-		loop->data->MovePiece();
-		loop = loop->next;
-	}
-	UpdateDirections();
+	MoveSnake();
 	targetTicks = SDL_GetTicks() + 1000;
 }
-void Game::UpdateDirections() {
-	node<SnakePiece>* loop = dirQueue->head;
-	while (loop != NULL && loop->next != NULL) {
-		loop->next->data->SetDir(loop->data->GetDir());
-		loop = loop->next;
+
+void UpdateDirections(node* n) {
+	if (n->next != nullptr) {
+		n->next->data->SetDir(n->data->GetDir());
+		n->next->data->hasNewDir = true;
+		n->data->hasNewDir = false;
 	}
 }
+
+void Game::MoveSnake() {
+	node* loop = snake->tail;
+	while (loop != nullptr) {
+		loop->data->MovePiece();
+		if (loop->data->hasNewDir == true) {
+			Log("Update Directions");
+			UpdateDirections(loop);
+		}
+		loop = loop->prev;
+	}
+}
+
 void Game::handleEvents() {
 	SDL_Event event;
 	SDL_PollEvent(&event);
@@ -127,8 +130,10 @@ void Game::handleEvents() {
 	}
 	if (newDir != NONE) {
 		snake->head->data->SetDir(newDir);
-		dirQueue->Add(snake->head);
+		snake->head->data->SetDir(newDir);
+		snake->head->data->hasNewDir = true;
 	}
+	
 
 
 };
@@ -144,10 +149,13 @@ void Game::update() {
 
 void Game::render() {
 	SDL_RenderClear(renderer);
-	node<SnakePiece>* loop = snake->head;
+	node* loop = snake->head;
+	int i = 0;
 	while (loop != NULL) {
+		Log(i);
 		loop->data->Render();
 		loop = loop->next;
+		i++;
 	}
 
 	SDL_RenderPresent(renderer);
