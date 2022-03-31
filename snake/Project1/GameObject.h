@@ -15,6 +15,8 @@ public:
 	};
 	void MoveRect() {};
 	SDL_Rect GetRect() { return dstRect; };
+	bool isIntersecting(SDL_Rect rect) { return SDL_HasIntersection(&GameObject::GetRect(), &rect); };
+
 protected:
 	SDL_Texture* objTex;
 	SDL_Rect srcRect, dstRect;

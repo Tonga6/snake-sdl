@@ -9,7 +9,7 @@ SnakePiece::SnakePiece(const char* texSheet, SDL_Renderer* ren) {
 	dstRect.y = 100;
 	dstRect.h = 32;
 	dstRect.w = 32;
-	dir = RIGHT;
+	//dir = RIGHT;
 };
 
 void SnakePiece::MovePiece() {

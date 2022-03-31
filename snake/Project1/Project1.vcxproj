@@ -148,6 +148,7 @@
     <Image Include="Assets\1x\ball.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Food.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="SnakePiece.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Food.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />

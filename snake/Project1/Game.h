@@ -29,7 +29,7 @@ public:
 
 	template <typename T>
 	static void Log(T var) { std::cout << var << std::endl; };
-
+	bool IsFoodEaten();
 
 private:
 	const Uint8* key;

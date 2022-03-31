@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "SnakePiece.h"
-
+#include "Food.h"
 struct node {
 	SnakePiece* data;
 	node* next;
@@ -37,7 +37,7 @@ Game::~Game() {
 
 }
 LinkedList* snake = new LinkedList;
-
+Food* food = new Food;
 float targetTicks, waitedTicks;
 //set up SDL window and renderer
 void Game::init(const char* title, int xpos, int ypos, int width, int height) {
@@ -65,6 +65,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 			s->SetPos((width / 2 + ((i + 1) * 32)), height / 2);
 			snake->Add(s);
 		}
+		food = new Food("Assets/1x/block.png", renderer);
+		food->SetPos(220, 220);
+
 		waitedTicks = SDL_GetTicks();
 		targetTicks = waitedTicks + 2000;//2 seconds
 	}
@@ -73,9 +76,21 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 void Game::newCycle() {
 	Log("New Cycle");
 	MoveSnake();
+	if (IsFoodEaten()) {
+		SnakePiece* s;
+		s = new SnakePiece("Assets/1x/block.png", renderer);
+		snake->Add(s);
+		s->SetPos(100,100);
+		Log("FOOD ATE");
+	}
 	targetTicks = SDL_GetTicks() + 1000;
 }
 
+bool Game::IsFoodEaten() {
+	if (snake->head->data->isIntersecting(food->GetRect()))
+		return true;
+	return false;
+}
 void UpdateDirections(node* n) {
 	if (n->next != nullptr) {
 		n->next->data->SetDir(n->data->GetDir());
@@ -152,12 +167,11 @@ void Game::render() {
 	node* loop = snake->head;
 	int i = 0;
 	while (loop != NULL) {
-		Log(i);
 		loop->data->Render();
 		loop = loop->next;
 		i++;
 	}
-
+	food->Render();
 	SDL_RenderPresent(renderer);
 };
 

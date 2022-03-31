@@ -14,13 +14,12 @@ public:
 	SnakePiece(const char* texSheet, SDL_Renderer* renderer);
 
 	void Update();
-	bool isIntersecting(SDL_Rect rect) { return SDL_HasIntersection(&GameObject::GetRect(), &rect); };
 
 	void SetDir(movementDir newDir) { dir = newDir; };
 	movementDir GetDir() { return dir; };
 	bool hasNewDir = false;
 	void MovePiece();
-	movementDir dir = RIGHT;
+	movementDir dir = LEFT;
 
 private:
 };
