@@ -9,9 +9,10 @@ public:
 	~GameObject() {};
 
 	void Render() { SDL_RenderCopy(renderer, objTex, NULL, &dstRect); };
-	void SetPos(int xPos, int yPos) {
-		dstRect.x = xPos;
-		dstRect.y = yPos;
+	Vec2 GetPos() { return Vec2(dstRect.x, dstRect.y); };
+	void SetPos(Vec2 pos) {
+		dstRect.x = pos.x;
+		dstRect.y = pos.y;
 	};
 	void MoveRect() {};
 	SDL_Rect GetRect() { return dstRect; };

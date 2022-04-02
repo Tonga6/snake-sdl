@@ -4,6 +4,11 @@
 #include "SDL_image.h"
 
 struct Vec2 {
+	Vec2() {};
+	Vec2(float inX, float inY) {
+		x = inX;
+		y = inY;
+	}
 	float x, y;
 	void Set(float newX, float newY) {
 		x = newX; y = newY;

@@ -15,17 +15,35 @@ struct LinkedList {
 		node* newNode = new node;
 		newNode->data = data;
 		if (head == NULL) {
+			data->SetPos(Vec2(128, 128));
 			head = newNode;
 			tail = head;
 			head->next = NULL;
 			head->prev = NULL;
 		}
 		else {
+
+			data->SetPos(SetPiecePos());
+			data->SetDir(tail->data->GetDir());
 			tail->next = newNode;
 			newNode->prev = tail;
 			newNode->next = NULL;
 			tail = newNode;
 		}
+	}
+	Vec2 SetPiecePos() {
+		movementDir dir = tail->data->GetDir();
+		Vec2 pos = tail->data->GetPos();
+		if (dir == LEFT)
+			pos.x += 32;
+		else if (dir == RIGHT)
+			pos.x -= 32;
+		else if (dir == UP)
+			pos.y += 32;
+		else 
+			pos.y -= 32;
+
+		return pos;
 	}
 };
 
@@ -37,7 +55,7 @@ Game::~Game() {
 
 }
 LinkedList* snake = new LinkedList;
-Food* food = new Food;
+Food* food;
 float targetTicks, waitedTicks;
 //set up SDL window and renderer
 void Game::init(const char* title, int xpos, int ypos, int width, int height) {
@@ -62,11 +80,10 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 		SnakePiece* s;
 		for (int i = 0; i < 4; i++) {
 			s = new SnakePiece("Assets/1x/block.png", renderer);
-			s->SetPos((width / 2 + ((i + 1) * 32)), height / 2);
 			snake->Add(s);
 		}
 		food = new Food("Assets/1x/block.png", renderer);
-		food->SetPos(220, 220);
+		food->SetPos(Vec2(128, 256));
 
 		waitedTicks = SDL_GetTicks();
 		targetTicks = waitedTicks + 2000;//2 seconds
@@ -74,16 +91,14 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 };
 
 void Game::newCycle() {
-	Log("New Cycle");
 	MoveSnake();
 	if (IsFoodEaten()) {
-		SnakePiece* s;
-		s = new SnakePiece("Assets/1x/block.png", renderer);
+
+		SnakePiece* s = new SnakePiece("Assets/1x/block.png", renderer);
 		snake->Add(s);
-		s->SetPos(100,100);
 		Log("FOOD ATE");
 	}
-	targetTicks = SDL_GetTicks() + 1000;
+	targetTicks = SDL_GetTicks() + 250;
 }
 
 bool Game::IsFoodEaten() {
@@ -103,10 +118,9 @@ void Game::MoveSnake() {
 	node* loop = snake->tail;
 	while (loop != nullptr) {
 		loop->data->MovePiece();
-		if (loop->data->hasNewDir == true) {
-			Log("Update Directions");
+		if (loop->data->hasNewDir == true) 
 			UpdateDirections(loop);
-		}
+		
 		loop = loop->prev;
 	}
 }
@@ -123,21 +137,16 @@ void Game::handleEvents() {
 			key = SDL_GetKeyboardState(nullptr);
 			
 			if (key[SDL_SCANCODE_W]) {
-				Log("W");
 				newDir = UP;
 			}
 			else if (key[SDL_SCANCODE_A]) {
-				Log("A");
 				newDir = LEFT;
 			}
 
 			else if (key[SDL_SCANCODE_S]) {
-				Log("S");
 				newDir = DOWN;
-
 			}
 			else if (key[SDL_SCANCODE_D]) {
-				Log("D");
 				newDir = RIGHT;
 			}
 		default:

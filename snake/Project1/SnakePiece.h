@@ -19,7 +19,7 @@ public:
 	movementDir GetDir() { return dir; };
 	bool hasNewDir = false;
 	void MovePiece();
-	movementDir dir = LEFT;
+	movementDir dir = RIGHT;
 
 private:
 };
