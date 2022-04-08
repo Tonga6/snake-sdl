@@ -82,7 +82,7 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height) {
 			s = new SnakePiece("Assets/1x/block.png", renderer);
 			snake->Add(s);
 		}
-		food = new Food("Assets/1x/block.png", renderer);
+		food = new Food("Assets/1x/ball.png", renderer);
 		food->SetPos(Vec2(128, 256));
 
 		waitedTicks = SDL_GetTicks();
@@ -97,6 +97,7 @@ void Game::newCycle() {
 		SnakePiece* s = new SnakePiece("Assets/1x/block.png", renderer);
 		snake->Add(s);
 		Log("FOOD ATE");
+		food->Spawn();
 	}
 	targetTicks = SDL_GetTicks() + 250;
 }
